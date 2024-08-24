@@ -5,3 +5,5 @@ export interface News {
   image: File | null;
   date_added: string;
 }
+
+export type NewsWithoutId = Omit<News, 'id' | 'date_added'>;

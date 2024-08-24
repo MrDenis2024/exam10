@@ -35,8 +35,11 @@ commentsRouter.post('/', async (req, res, next) => {
       text: req.body.text,
     }
 
-    await mysqlDb.getConnection().query('INSERT INTO comments (news_id, author, text) VALUES (?, ?, ?)', [comment.news_id, comment.author, comment.text]);
-
+    const insertResult = await mysqlDb.getConnection().query('INSERT INTO comments (news_id, author, text) VALUES (?, ?, ?)', [comment.news_id, comment.author, comment.text]);
+    const resultHeader = insertResult[0] as ResultSetHeader;
+    const getNewResult = await mysqlDb.getConnection().query('SELECT * FROM comments WHERE id = ?', [resultHeader.insertId]);
+    const newComment = getNewResult[0] as Comment[];
+    return res.send(newComment[0]);
   } catch (e) {
     next(e);
   }
@@ -51,6 +54,8 @@ commentsRouter.delete('/:id', async (req, res, next) => {
     if(resultHeader.affectedRows === 0) {
       return res.status(404).send({error: 'No comment found'});
     }
+
+    return res.send({message: 'Comment was deleted successfully.'})
   } catch (e) {
     next(e);
   }

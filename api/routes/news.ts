@@ -29,7 +29,11 @@ newsRouter.post('/', imagesUpload.single('image'), async (req, res, next) => {
       image: req.file ? req.file.filename : null,
     };
 
-    await mysqlDb.getConnection().query('INSERT INTO news (title, description, image) VALUES (?, ?, ?)', [newNews.title, newNews.description, newNews.image]);
+    const insertResult = await mysqlDb.getConnection().query('INSERT INTO news (title, description, image) VALUES (?, ?, ?)', [newNews.title, newNews.description, newNews.image]);
+    const resultHeader = insertResult[0] as ResultSetHeader;
+    const getNewNews = await mysqlDb.getConnection().query('SELECT * FROM news WHERE id = ?', [resultHeader.insertId]);
+    const news = getNewNews[0] as News[];
+    return res.send(news[0]);
   } catch (e) {
     next(e);
   }
