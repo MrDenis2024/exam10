@@ -14,14 +14,6 @@ create table news
 
 create table comments
 (
-    id      int auto_increment,
-    news_id int          not null,
-    author  varchar(255) null,
-    text    TEXT         not null
-);
-
-create table comments
-(
     id      int auto_increment
         primary key,
     news_id int          not null,
@@ -29,6 +21,7 @@ create table comments
     text    TEXT         not null,
     constraint comments_news_id_fk
         foreign key (news_id) references news (id)
+            on delete cascade
 );
 
 INSERT INTO news (title, description, image) VALUES ('Пожар', 'Сегодня в Бишкеке произошёл пожар', NULL), ('Погода на Иссык-Куле', 'Сегодня погода на Иссык-Куле будет пасмурннной временами дождь', NULL);
