@@ -60,6 +60,8 @@ newsRouter.delete('/:id', async (req, res, next) => {
     if(resultHeader.affectedRows === 0) {
       return res.status(404).send({error: 'No news found'});
     }
+
+    return res.send({message: 'News was deleted successfully.'})
   } catch (e) {
     next(e);
   }
