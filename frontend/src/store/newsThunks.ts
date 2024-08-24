@@ -4,7 +4,7 @@ import axiosApi from '../axiosApi';
 
 export const fetchNews = createAsyncThunk<News[]>('news/fetchAll', async () => {
   const {data: news} = await axiosApi.get<News[]>('/news');
-  return news;
+  return news.reverse();
 });
 
 export const deleteNews = createAsyncThunk<void, number>('news/delete', async (id) => {

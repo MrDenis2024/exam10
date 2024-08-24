@@ -56,7 +56,7 @@ const NewsForm: React.FC<Props> = ({onSubmit, createLoading}) => {
       <div className="form-group mb-4 d-flex align-items-center">
         <FileInput onChange={fileInputChangeHandler}/>
       </div>
-      <div>
+      <div className='col-2 d-flex justify-content-end'>
         <button type='submit' className='btn btn-success' disabled={createLoading}>{createLoading &&
           <ButtonSpinner/>}Save news
         </button>
